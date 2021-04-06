@@ -12,16 +12,22 @@ namespace csharp.rpa.challenge.selenium
         static void Main(string[] args)
         {
             log.Info("Starting application");
-            var iniFile = new IniFile(@"C:\Projetos\RPA\csharp.rpa.challenge.selenium\csharp.rpa.challenge.selenium\resources\config.ini");
 
             IWebDriver driver;
-            driver = new ChromeDriver(@"C:\Projetos\RPA\csharp.rpa.challenge.selenium\csharp.rpa.challenge.selenium\resources\");
+            driver = new ChromeDriver(constants.ChallengeConstants.PATH_CHROMEDRIVER);
             driver.Manage().Window.Maximize();
-            String baseURL = iniFile.GetValue("url", "mainUrlChallenge");
 
-            driver.Navigate().GoToUrl(baseURL);
+
+            driver.Navigate().GoToUrl(constants.ChallengeConstants.URL_CHALLENGE);
+
+
             log.Info("Opened website");
 
+        }
+
+        private void loadExcelData()
+        {
+            string[] excelPath = Directory.GetFiles(@"c:\MyDir\", "*.xlsx");
         }
     }
 }
