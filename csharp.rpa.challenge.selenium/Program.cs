@@ -23,15 +23,34 @@ namespace csharp.rpa.challenge.selenium
             driver = new ChromeDriver(constants.ChallengeConstants.PATH_CHROMEDRIVER);
             driver.Manage().Window.Maximize();
 
-
             driver.Navigate().GoToUrl(constants.ChallengeConstants.URL_CHALLENGE);
+
+            driver.FindElement(By.XPath("//div/button[contains(text(), 'Start')]")).Click();
+
+            String baseInputXpath = "//div//label[contains(text(), '{0}')]//following-sibling::input";
+
+            foreach (var person in personList)
+            {
+                driver.FindElement(By.XPath(string.Format(baseInputXpath, "First Name"))).SendKeys(person.firstName);
+                driver.FindElement(By.XPath(string.Format(baseInputXpath, "Last Name"))).SendKeys(person.lastName);
+                driver.FindElement(By.XPath(string.Format(baseInputXpath, "Company Name"))).SendKeys(person.companyName);
+                driver.FindElement(By.XPath(string.Format(baseInputXpath, "Role in Company"))).SendKeys(person.roleInCompany);
+                driver.FindElement(By.XPath(string.Format(baseInputXpath, "Address"))).SendKeys(person.address);
+                driver.FindElement(By.XPath(string.Format(baseInputXpath, "Email"))).SendKeys(person.email);
+                driver.FindElement(By.XPath(string.Format(baseInputXpath, "Phone Number"))).SendKeys(person.phoneNumber);
+
+                driver.FindElement(By.XPath("//form//input[@Type='submit' or contains(text(), 'submit') or starts-with(@class, 'btn')]")).Click();
+            }
+
+            driver.Close();
+            driver.Quit();
+
             log.Info("Opened website");
         }
 
         private static List<Person> loadExcelData()
         {
             // ironsoftware.com/csharp/excel/examples/read-xlsx-file
-
             string[] excelPath = Directory.GetFiles(constants.ChallengeConstants.PATH_INPUT_EXCEL, "*.xlsx");
 
             List<Person> personList = new List<Person>();
