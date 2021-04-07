@@ -1,7 +1,9 @@
-﻿using OpenQA.Selenium;
+﻿using IronXL;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System;
 using System.IO;
+using System.Linq;
 
 namespace csharp.rpa.challenge.selenium
 {
@@ -13,21 +15,36 @@ namespace csharp.rpa.challenge.selenium
         {
             log.Info("Starting application");
 
+            loadExcelData();
+
             IWebDriver driver;
             driver = new ChromeDriver(constants.ChallengeConstants.PATH_CHROMEDRIVER);
             driver.Manage().Window.Maximize();
 
 
             driver.Navigate().GoToUrl(constants.ChallengeConstants.URL_CHALLENGE);
-
-
             log.Info("Opened website");
+
 
         }
 
-        private void loadExcelData()
+        private static void loadExcelData()
         {
-            string[] excelPath = Directory.GetFiles(@"c:\MyDir\", "*.xlsx");
+            // ironsoftware.com/csharp/excel/examples/read-xlsx-file
+
+            string[] excelPath = Directory.GetFiles(constants.ChallengeConstants.PATH_INPUT_EXCEL, "*.xlsx");
+
+            WorkBook workbook = WorkBook.Load(excelPath[0]);
+            WorkSheet sheet = workbook.DefaultWorkSheet;
+
+            string currentCell = "A1";
+            for (var counter = 1; currentCell.Length != 0; counter++)
+            {
+                currentCell = sheet["A" + counter + ""].StringValue;
+                Console.WriteLine(currentCell);
+            }
+
+            Console.ReadKey();
         }
     }
 }
