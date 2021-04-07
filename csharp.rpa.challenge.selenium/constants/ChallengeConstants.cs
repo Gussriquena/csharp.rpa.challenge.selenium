@@ -12,6 +12,11 @@ namespace csharp.rpa.challenge.selenium.constants
         public static string PATH_PROCESSING_EXCEL = getValue("files", "pathProcessingExcel");
         public static string PATH_CHROMEDRIVER = getValue("driver", "chromeDriverPath");
 
+        public static string XPATH_INPUT_DEFAULT = "//div//label[contains(text(), '{0}')]//following-sibling::input";
+        public static string XPATH_START_BUTTON = "//div/button[contains(text(), 'Start')]";
+        public static string XPATH_SUBMIT_BUTTON = "//form//input[@Type='submit' or contains(text(), 'submit') or starts-with(@class, 'btn')]";
+        public static string XPATH_MESSAGE_RESULT = "";
+        
         public static string getValue(string section, string key)
         {
             var iniFile = new IniFile(@"C:\Projetos\RPA\csharp.rpa.challenge.selenium\csharp.rpa.challenge.selenium\resources\config.ini");

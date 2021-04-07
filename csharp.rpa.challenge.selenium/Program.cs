@@ -1,4 +1,5 @@
-﻿using csharp.rpa.challenge.selenium.model;
+﻿using csharp.rpa.challenge.selenium.constants;
+using csharp.rpa.challenge.selenium.model;
 using IronXL;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -20,14 +21,12 @@ namespace csharp.rpa.challenge.selenium
             List<Person> personList = loadExcelData();
 
             IWebDriver driver;
-            driver = new ChromeDriver(constants.ChallengeConstants.PATH_CHROMEDRIVER);
+            driver = new ChromeDriver(ChallengeConstants.PATH_CHROMEDRIVER);
             driver.Manage().Window.Maximize();
+            driver.Navigate().GoToUrl(ChallengeConstants.URL_CHALLENGE);
+            driver.FindElement(By.XPath(ChallengeConstants.XPATH_START_BUTTON)).Click();
 
-            driver.Navigate().GoToUrl(constants.ChallengeConstants.URL_CHALLENGE);
-
-            driver.FindElement(By.XPath("//div/button[contains(text(), 'Start')]")).Click();
-
-            String baseInputXpath = "//div//label[contains(text(), '{0}')]//following-sibling::input";
+            String baseInputXpath = ChallengeConstants.XPATH_INPUT_DEFAULT;
 
             foreach (var person in personList)
             {
@@ -39,7 +38,7 @@ namespace csharp.rpa.challenge.selenium
                 driver.FindElement(By.XPath(string.Format(baseInputXpath, "Email"))).SendKeys(person.email);
                 driver.FindElement(By.XPath(string.Format(baseInputXpath, "Phone Number"))).SendKeys(person.phoneNumber);
 
-                driver.FindElement(By.XPath("//form//input[@Type='submit' or contains(text(), 'submit') or starts-with(@class, 'btn')]")).Click();
+                driver.FindElement(By.XPath(ChallengeConstants.XPATH_SUBMIT_BUTTON)).Click();
             }
 
             driver.Close();
