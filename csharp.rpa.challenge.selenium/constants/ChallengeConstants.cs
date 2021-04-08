@@ -11,6 +11,7 @@ namespace csharp.rpa.challenge.selenium.constants
         public static string PATH_OUTPUT_EXCEL = getValue("files", "pathOutputExcel");
         public static string PATH_PROCESSING_EXCEL = getValue("files", "pathProcessingExcel");
         public static string PATH_CHROMEDRIVER = getValue("driver", "chromeDriverPath");
+        public static bool CHROME_IS_HEADLESS = Convert.ToBoolean(getValue("driver", "headless"));
 
         public static string XPATH_INPUT_DEFAULT = "//div//label[contains(text(), '{0}')]//following-sibling::input";
         public static string XPATH_START_BUTTON = "//div/button[contains(text(), 'Start')]";

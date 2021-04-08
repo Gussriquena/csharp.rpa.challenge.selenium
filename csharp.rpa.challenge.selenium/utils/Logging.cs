@@ -37,14 +37,17 @@ namespace csharp.rpa.challenge.selenium.utils
             {
                 case TypeLog.Info:
                     sb.AppendLine(DateTime.Now + " - [ INFO ] - " + message);
+                    Console.Write(DateTime.Now + " - [ INFO ] - " + message);
                     break;
 
                 case TypeLog.Error:
                     sb.AppendLine(DateTime.Now + " - [ ERROR ] - " + message);
+                    Console.Write(DateTime.Now + " - [ ERROR ] - " + message);
                     break;
 
                 case TypeLog.Warning:
                     sb.AppendLine(DateTime.Now + " - [ WARNING ] - " + message);
+                    Console.Write(DateTime.Now + " - [ WARNING ] - " + message);
                     break;
 
                 default:

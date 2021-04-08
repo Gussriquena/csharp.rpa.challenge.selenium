@@ -18,7 +18,6 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyProductAttribute("csharp.rpa.challenge.selenium")]
 [assembly: System.Reflection.AssemblyTitleAttribute("csharp.rpa.challenge.selenium")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
-[assembly: log4net.Config.XmlConfigurator(ConfigFile = "log4net.config")]
 
 // Gerado pela classe WriteCodeFragment do MSBuild.
 

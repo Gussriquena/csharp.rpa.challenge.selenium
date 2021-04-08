@@ -1,4 +1,5 @@
-﻿using csharp.rpa.challenge.selenium.constants;
+﻿using csharp.rpa.challenge.selenium.browser;
+using csharp.rpa.challenge.selenium.constants;
 using csharp.rpa.challenge.selenium.model;
 using IronXL;
 using OpenQA.Selenium;
@@ -14,10 +15,11 @@ namespace csharp.rpa.challenge.selenium.controller
     {
         public void initFlow()
         {
-            List<Person> personList = loadExcelData();
+            ExcelController excelController = new ExcelController();
+            List<Person> personList = excelController.loadExcelData();
 
             IWebDriver driver;
-            driver = new ChromeDriver(ChallengeConstants.PATH_CHROMEDRIVER);
+            driver = new ChromeDriver(ChallengeConstants.PATH_CHROMEDRIVER, BrowserConfiguration.getChromeOptions());
             driver.Manage().Window.Maximize();
             driver.Navigate().GoToUrl(ChallengeConstants.URL_CHALLENGE);
             driver.FindElement(By.XPath(ChallengeConstants.XPATH_START_BUTTON)).Click();
@@ -39,42 +41,6 @@ namespace csharp.rpa.challenge.selenium.controller
 
             driver.Close();
             driver.Quit();
-
-            log.Info("Opened website");
-        }
-
-        private static List<Person> loadExcelData()
-        {
-            // ironsoftware.com/csharp/excel/examples/read-xlsx-file
-            string[] excelPath = Directory.GetFiles(constants.ChallengeConstants.PATH_INPUT_EXCEL, "*.xlsx");
-
-            List<Person> personList = new List<Person>();
-
-            WorkBook workbook = WorkBook.Load(excelPath[0]);
-            WorkSheet sheet = workbook.DefaultWorkSheet;
-
-            string currentCell = "A1";
-            for (var counter = 2; currentCell.Length != 0; counter++)
-            {
-                currentCell = sheet["A" + counter + ""].StringValue;
-
-                if (currentCell.Length != 0)
-                {
-                    Person person = new Person();
-
-                    person.firstName = sheet["A" + counter + ""].StringValue;
-                    person.lastName = sheet["B" + counter + ""].StringValue;
-                    person.companyName = sheet["C" + counter + ""].StringValue;
-                    person.roleInCompany = sheet["D" + counter + ""].StringValue;
-                    person.address = sheet["E" + counter + ""].StringValue;
-                    person.email = sheet["F" + counter + ""].StringValue;
-                    person.phoneNumber = sheet["G" + counter + ""].StringValue;
-
-                    personList.Add(person);
-                }
-            }
-
-            return personList;
         }
     }
 }
