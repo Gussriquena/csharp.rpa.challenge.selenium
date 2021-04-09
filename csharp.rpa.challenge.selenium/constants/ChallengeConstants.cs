@@ -17,10 +17,13 @@ namespace csharp.rpa.challenge.selenium.constants
         public static string XPATH_START_BUTTON = "//div/button[contains(text(), 'Start')]";
         public static string XPATH_SUBMIT_BUTTON = "//form//input[@Type='submit' or contains(text(), 'submit') or starts-with(@class, 'btn')]";
         public static string XPATH_MESSAGE_RESULT = "";
-        
+
+        public static string PATH_INI_CONFIG = @"C:\Projetos\RPA\csharp.rpa.challenge.selenium\csharp.rpa.challenge.selenium\resources\config.ini";
+        public static string PATH_LOG_PATH = @"C:\Arquivos\rpa.challenge.csharp\log\" + "log_" + DateTime.Now.ToString("yyyMMdd_HHmmss") + ".txt";
+
         public static string getValue(string section, string key)
         {
-            var iniFile = new IniFile(@"C:\Projetos\RPA\csharp.rpa.challenge.selenium\csharp.rpa.challenge.selenium\resources\config.ini");
+            var iniFile = new IniFile(PATH_INI_CONFIG);
             return iniFile.GetValue(section, key);
         }
     }

@@ -15,7 +15,7 @@ namespace csharp.rpa.challenge.selenium
     class Program
     {
 
-        private static readonly Logging log = new Logging(@"C:\Arquivos\rpa.challenge.csharp\log\", "log_" + DateTime.Now.ToString("yyyMMdd_HHmmss") + ".txt");
+        private static readonly Logging log = new Logging(ChallengeConstants.PATH_LOG_PATH);
 
         static void Main(string[] args)
         {

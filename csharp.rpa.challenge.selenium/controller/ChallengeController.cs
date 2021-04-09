@@ -29,10 +29,9 @@ namespace csharp.rpa.challenge.selenium.controller
             ExcelController excelController = new ExcelController();
             List<Person> personList = excelController.loadExcelData();
 
-            driver = new ChromeDriver(ChallengeConstants.PATH_CHROMEDRIVER, BrowserConfiguration.getChromeOptions());
-            this.challengePage = new ChallengePage(driver);
+            driver = WebDriverFactory.getInstance();
 
-            driver.Manage().Window.Maximize();
+            this.challengePage = new ChallengePage(driver);
             driver.Navigate().GoToUrl(ChallengeConstants.URL_CHALLENGE);
 
             challengePage.clickStart();
@@ -42,8 +41,7 @@ namespace csharp.rpa.challenge.selenium.controller
                 insertData(person);
             }
 
-            driver.Close();
-            driver.Quit();
+            WebDriverFactory.closeDriver();
         }
 
         private void insertData(Person person)
@@ -56,8 +54,7 @@ namespace csharp.rpa.challenge.selenium.controller
                 challengePage.fillInput("Role in Company", person.roleInCompany);
                 challengePage.fillInput("Address", person.address);
                 challengePage.fillInput("Email", person.email);
-                challengePage.fillInput("Phone Number", null);
-
+                challengePage.fillInput("Phone Number", person.phoneNumber);
                 challengePage.clickSubmit();
             }
             catch (Exception e)
