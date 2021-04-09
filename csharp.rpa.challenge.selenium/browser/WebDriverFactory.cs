@@ -17,14 +17,13 @@ namespace csharp.rpa.challenge.selenium.browser
             driver = new ChromeDriver(ChallengeConstants.PATH_CHROMEDRIVER, BrowserConfiguration.getChromeOptions());
             driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(80);
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(80);
-            
             return driver;
         }
 
         public static void closeDriver()
         {
-            //driver.Close();
-            //driver.Quit();
+            driver.Close();
+            driver.Quit();
         }
     }
 }
