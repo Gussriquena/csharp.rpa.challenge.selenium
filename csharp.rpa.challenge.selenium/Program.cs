@@ -12,6 +12,11 @@ using System.Linq;
 
 namespace csharp.rpa.challenge.selenium
 {
+    /// <summary>
+    /// You will see that this project was created with too many classes and packages for your size
+    /// however, was created with this amount of classes justly to test implementation of new project patterns to RPA
+    /// So, each functions and responsabilities that a selenium project have to be, are in your respective classes
+    /// </summary>
     class Program
     {
 
