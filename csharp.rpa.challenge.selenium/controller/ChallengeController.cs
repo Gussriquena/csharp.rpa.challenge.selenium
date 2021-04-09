@@ -1,6 +1,8 @@
 ﻿using csharp.rpa.challenge.selenium.browser;
 using csharp.rpa.challenge.selenium.constants;
 using csharp.rpa.challenge.selenium.model;
+using csharp.rpa.challenge.selenium.pages;
+using csharp.rpa.challenge.selenium.utils;
 using IronXL;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -13,34 +15,56 @@ namespace csharp.rpa.challenge.selenium.controller
 {
     class ChallengeController
     {
+        private readonly Logging log;
+        private IWebDriver driver;
+        ChallengePage challengePage;
+
+        public ChallengeController(Logging log)
+        {
+            this.log = log;
+        }
+
         public void initFlow()
         {
             ExcelController excelController = new ExcelController();
             List<Person> personList = excelController.loadExcelData();
 
-            IWebDriver driver;
             driver = new ChromeDriver(ChallengeConstants.PATH_CHROMEDRIVER, BrowserConfiguration.getChromeOptions());
+            this.challengePage = new ChallengePage(driver);
+
             driver.Manage().Window.Maximize();
             driver.Navigate().GoToUrl(ChallengeConstants.URL_CHALLENGE);
-            driver.FindElement(By.XPath(ChallengeConstants.XPATH_START_BUTTON)).Click();
 
-            String baseInputXpath = ChallengeConstants.XPATH_INPUT_DEFAULT;
+            challengePage.clickStart();
 
             foreach (var person in personList)
             {
-                driver.FindElement(By.XPath(string.Format(baseInputXpath, "First Name"))).SendKeys(person.firstName);
-                driver.FindElement(By.XPath(string.Format(baseInputXpath, "Last Name"))).SendKeys(person.lastName);
-                driver.FindElement(By.XPath(string.Format(baseInputXpath, "Company Name"))).SendKeys(person.companyName);
-                driver.FindElement(By.XPath(string.Format(baseInputXpath, "Role in Company"))).SendKeys(person.roleInCompany);
-                driver.FindElement(By.XPath(string.Format(baseInputXpath, "Address"))).SendKeys(person.address);
-                driver.FindElement(By.XPath(string.Format(baseInputXpath, "Email"))).SendKeys(person.email);
-                driver.FindElement(By.XPath(string.Format(baseInputXpath, "Phone Number"))).SendKeys(person.phoneNumber);
-
-                driver.FindElement(By.XPath(ChallengeConstants.XPATH_SUBMIT_BUTTON)).Click();
+                insertData(person);
             }
 
             driver.Close();
             driver.Quit();
+        }
+
+        private void insertData(Person person)
+        {
+            try
+            {
+                challengePage.fillInput("First Name", person.firstName);
+                challengePage.fillInput("Last Name", person.lastName);
+                challengePage.fillInput("Company Name", person.companyName);
+                challengePage.fillInput("Role in Company", person.roleInCompany);
+                challengePage.fillInput("Address", person.address);
+                challengePage.fillInput("Email", person.email);
+                challengePage.fillInput("Phone Number", null);
+
+                challengePage.clickSubmit();
+            }
+            catch (Exception e)
+            {
+                log.Error(person.firstName + " - " + e.Message);
+                driver.Navigate().GoToUrl(ChallengeConstants.URL_CHALLENGE);
+            }
         }
     }
 }
