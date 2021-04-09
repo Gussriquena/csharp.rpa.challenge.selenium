@@ -32,6 +32,7 @@ namespace csharp.rpa.challenge.selenium.controller
             driver = WebDriverFactory.getInstance();
 
             this.challengePage = new ChallengePage(driver);
+
             driver.Navigate().GoToUrl(ChallengeConstants.URL_CHALLENGE);
 
             challengePage.clickStart();
