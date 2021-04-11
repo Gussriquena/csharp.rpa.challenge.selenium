@@ -26,23 +26,29 @@ namespace csharp.rpa.challenge.selenium.controller
 
         public void initFlow()
         {
+           
             ExcelController excelController = new ExcelController();
             List<Person> personList = excelController.loadExcelData();
 
-            driver = WebDriverFactory.getInstance();
+            if (personList.Count != 0) {
+                startChallengeInsertion(personList);
+            }
+           
+            WebDriverFactory.closeDriver();
+        }
 
+        private void startChallengeInsertion(List<Person> personList)
+        {
+            driver = WebDriverFactory.getInstance();
             this.challengePage = new ChallengePage(driver);
 
             driver.Navigate().GoToUrl(ChallengeConstants.URL_CHALLENGE);
-
             challengePage.clickStart();
 
             foreach (var person in personList)
             {
                 insertData(person);
             }
-
-            WebDriverFactory.closeDriver();
         }
 
         private void insertData(Person person)
@@ -57,6 +63,8 @@ namespace csharp.rpa.challenge.selenium.controller
                 challengePage.fillInput("Email", person.email);
                 challengePage.fillInput("Phone Number", person.phoneNumber);
                 challengePage.clickSubmit();
+
+                person.isProcessed = true;
             }
             catch (Exception e)
             {

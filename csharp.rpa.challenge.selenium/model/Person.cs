@@ -13,6 +13,7 @@ namespace csharp.rpa.challenge.selenium.model
         public string address { get; set; }
         public string email { get; set; }
         public string phoneNumber { get; set; }
+        public bool isProcessed { get; set; }
 
         public Person()
         {
