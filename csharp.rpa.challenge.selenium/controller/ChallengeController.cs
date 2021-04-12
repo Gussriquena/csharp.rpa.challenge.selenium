@@ -17,7 +17,7 @@ namespace csharp.rpa.challenge.selenium.controller
     {
         private readonly Logging log;
         private IWebDriver driver;
-        ChallengePage challengePage;
+        ChallengePageJs challengePageJs;
 
         public ChallengeController(Logging log)
         {
@@ -31,45 +31,47 @@ namespace csharp.rpa.challenge.selenium.controller
             List<Person> personList = excelController.loadExcelData();
 
             if (personList.Count != 0) {
-                startChallengeInsertion(personList);
+                excelController.resultMessage = dataInsertion(personList);
                 excelController.writeExcel(personList);
             }
            
             WebDriverFactory.closeDriver();
         }
 
-        private void startChallengeInsertion(List<Person> personList)
+        private string dataInsertion(List<Person> personList)
         {
             driver = WebDriverFactory.getInstance();
-            this.challengePage = new ChallengePage(driver);
+            this.challengePageJs = new ChallengePageJs(driver);
 
             driver.Navigate().GoToUrl(ChallengeConstants.URL_CHALLENGE);
-            challengePage.clickStart();
+            challengePageJs.clickStart();
 
             foreach (var person in personList)
             {
                 insertData(person);
             }
+
+            return challengePageJs.getResultMessage();
         }
 
         private void insertData(Person person)
         {
             try
             {
-                challengePage.fillInput("First Name", person.firstName);
-                challengePage.fillInput("Last Name", person.lastName);
-                challengePage.fillInput("Company Name", person.companyName);
-                challengePage.fillInput("Role in Company", person.roleInCompany);
-                challengePage.fillInput("Address", person.address);
-                challengePage.fillInput("Email", person.email);
-                challengePage.fillInput("Phone Number", person.phoneNumber);
-                challengePage.clickSubmit();
+                challengePageJs.fillInput("First Name", person.firstName);
+                challengePageJs.fillInput("Last Name", person.lastName);
+                challengePageJs.fillInput("Company Name", person.companyName);
+                challengePageJs.fillInput("Role", person.roleInCompany);
+                challengePageJs.fillInput("Address", person.address);
+                challengePageJs.fillInput("Email", person.email);
+                challengePageJs.fillInput("Phone", person.phoneNumber);
+                challengePageJs.clickSubmit();
 
                 person.isProcessed = true;
             }
             catch (Exception e)
             {
-                log.Error(person.firstName + " - " + e.Message);
+                log.Error(e.Message + person);
                 driver.Navigate().GoToUrl(ChallengeConstants.URL_CHALLENGE);
             }
         }

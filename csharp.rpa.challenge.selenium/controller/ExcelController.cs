@@ -13,14 +13,13 @@ namespace csharp.rpa.challenge.selenium.controller
         // ironsoftware.com/csharp/excel/examples/read-xlsx-file
 
         private string fileExtension = ChallengeConstants.FILE_EXTENSION;
+        public string resultMessage { get; set; }
 
         public List<Person> loadExcelData()
         {
-            string[] excelPath = Directory.GetFiles(ChallengeConstants.PATH_INPUT_EXCEL, "*" + fileExtension);
-            string inputFile = excelPath[0];
+            string inputFile = Directory.GetFiles(ChallengeConstants.PATH_INPUT_EXCEL, "*" + fileExtension)[0];
 
             List<Person> personList = new List<Person>();
-
             WorkBook workbook = WorkBook.Load(inputFile);
             WorkSheet sheet = workbook.DefaultWorkSheet;
 
@@ -54,10 +53,10 @@ namespace csharp.rpa.challenge.selenium.controller
 
         public void writeExcel(List<Person> personList)
         {
-            string fileName = @"\" + ChallengeConstants.FILE_NAME + fileExtension;
-            string processingPath = ChallengeConstants.PATH_PROCESSING_EXCEL + fileName;
+            string fullFileName = @"\" + ChallengeConstants.FILE_NAME + fileExtension;
+            string fullProcessingPath = ChallengeConstants.PATH_PROCESSING_EXCEL + fullFileName;
 
-            WorkBook workbook = WorkBook.Load(processingPath);
+            WorkBook workbook = WorkBook.Load(fullProcessingPath);
             WorkSheet sheet = workbook.DefaultWorkSheet;
 
             int counter = 2;
@@ -76,14 +75,13 @@ namespace csharp.rpa.challenge.selenium.controller
                 counter++;
             }
 
-            workbook.SaveAs(ChallengeConstants.PATH_PROCESSING_EXCEL + fileName);
+            sheet["A" + counter + ""].Value = resultMessage;
+
+            workbook.SaveAs(ChallengeConstants.PATH_PROCESSING_EXCEL + fullFileName);
             workbook.Close();
 
-            string completeFileName = fileName.Replace(ChallengeConstants.FILE_NAME, ChallengeConstants.FILE_NAME 
-                + "_" 
-                +  DateTime.Now.ToString("yyyMMdd_HHmmss"));
-
-            File.Move(processingPath, ChallengeConstants.PATH_OUTPUT_EXCEL + completeFileName);
+            string completeFileName = fullFileName.Replace(ChallengeConstants.FILE_NAME, ChallengeConstants.FILE_NAME + "_" +  DateTime.Now.ToString("yyyMMdd_HHmmss"));
+            File.Move(fullProcessingPath, ChallengeConstants.PATH_OUTPUT_EXCEL + completeFileName);
 
         }
     }
