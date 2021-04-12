@@ -32,6 +32,7 @@ namespace csharp.rpa.challenge.selenium.controller
 
             if (personList.Count != 0) {
                 startChallengeInsertion(personList);
+                excelController.writeExcel(personList);
             }
            
             WebDriverFactory.closeDriver();

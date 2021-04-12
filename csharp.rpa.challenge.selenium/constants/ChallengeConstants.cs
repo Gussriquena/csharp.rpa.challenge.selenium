@@ -10,6 +10,9 @@ namespace csharp.rpa.challenge.selenium.constants
         public static string PATH_INPUT_EXCEL = getValue("files", "pathInputExcel");
         public static string PATH_OUTPUT_EXCEL = getValue("files", "pathOutputExcel");
         public static string PATH_PROCESSING_EXCEL = getValue("files", "pathProcessingExcel");
+        public static string FILE_NAME = getValue("files", "fileName");
+        public static string FILE_EXTENSION = getValue("files", "fileExtension");
+
         public static string PATH_CHROMEDRIVER = getValue("driver", "chromeDriverPath");
         public static bool CHROME_IS_HEADLESS = Convert.ToBoolean(getValue("driver", "headless"));
 
