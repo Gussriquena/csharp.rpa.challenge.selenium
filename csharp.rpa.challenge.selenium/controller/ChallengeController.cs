@@ -72,6 +72,7 @@ namespace csharp.rpa.challenge.selenium.controller
             catch (Exception e)
             {
                 log.Error(e.Message + person);
+                person.isProcessed = false;
                 driver.Navigate().GoToUrl(ChallengeConstants.URL_CHALLENGE);
             }
         }
