@@ -19,7 +19,6 @@ namespace csharp.rpa.challenge.selenium.constants
         public static string XPATH_INPUT_DEFAULT = "//div//label[contains(text(), '{0}')]//following-sibling::input";
         public static string XPATH_START_BUTTON = "//div/button[contains(text(), 'Start')]";
         public static string XPATH_SUBMIT_BUTTON = "//form//input[@Type='submit' or contains(text(), 'submit') or starts-with(@class, 'btn')]";
-        public static string XPATH_MESSAGE_RESULT = "";
 
         public static string getValue(string section, string key)
         {

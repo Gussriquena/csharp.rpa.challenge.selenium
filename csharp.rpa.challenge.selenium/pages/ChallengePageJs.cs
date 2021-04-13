@@ -1,4 +1,5 @@
 ﻿using csharp.rpa.challenge.selenium.constants;
+using csharp.rpa.challenge.selenium.model;
 using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
@@ -31,9 +32,25 @@ namespace csharp.rpa.challenge.selenium.pages
             js.ExecuteScript("document.querySelector(\"div > rpa1-field[ng-reflect-label='" + labelName + "'] > div > input\").value='" + data + "'");
         }
 
+        public void fillPage(string command)
+        {
+            js.ExecuteScript(command);
+        }
+
         public string getResultMessage()
         {
-            return js.ExecuteScript("return document.querySelector('div.message2').innerText").ToString();
+            String message = "";
+
+            try
+            {
+                message = js.ExecuteScript("return document.querySelector('div.message2').innerText").ToString();
+            }
+            catch (Exception)
+            {
+                message = "was not possible to get result Message";
+            }
+
+            return message;
         }
     }
 }

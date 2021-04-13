@@ -31,20 +31,26 @@ namespace csharp.rpa.challenge.selenium.controller
             List<Person> personList = excelController.loadExcelData();
 
             if (personList.Count != 0) {
+                this.driver = WebDriverFactory.getInstance();
                 excelController.resultMessage = dataInsertion(personList);
                 excelController.writeExcel(personList);
+
+                log.Info(excelController.resultMessage);
+                WebDriverFactory.closeDriver();
+            } 
+            else
+            {
+                log.Info("There is no file to process");
             }
-           
-            WebDriverFactory.closeDriver();
         }
 
         private string dataInsertion(List<Person> personList)
         {
-            driver = WebDriverFactory.getInstance();
             this.challengePageJs = new ChallengePageJs(driver);
 
             driver.Navigate().GoToUrl(ChallengeConstants.URL_CHALLENGE);
             challengePageJs.clickStart();
+
 
             foreach (var person in personList)
             {
@@ -58,14 +64,18 @@ namespace csharp.rpa.challenge.selenium.controller
         {
             try
             {
-                challengePageJs.fillInput("First Name", person.firstName);
-                challengePageJs.fillInput("Last Name", person.lastName);
-                challengePageJs.fillInput("Company Name", person.companyName);
-                challengePageJs.fillInput("Role", person.roleInCompany);
-                challengePageJs.fillInput("Address", person.address);
-                challengePageJs.fillInput("Email", person.email);
-                challengePageJs.fillInput("Phone", person.phoneNumber);
-                challengePageJs.clickSubmit();
+
+                string command 
+                    = "$('input[ng-reflect-name=labelFirstName]').val('" + person.firstName + "');"
+                    + "$('input[ng-reflect-name=labelLastName]').val('" + person.lastName + "');"
+                    + "$('input[ng-reflect-name=labelCompanyName]').val('" + person.companyName + "');"
+                    + "$('input[ng-reflect-name=labelRole]').val('" + person.roleInCompany + "');"
+                    + "$('input[ng-reflect-name=labelAddress]').val('" + person.address + "');"
+                    + "$('input[ng-reflect-name=labelEmail]').val('" + person.email + "');"
+                    + "$('input[ng-reflect-name=labelPhone]').val('" + person.phoneNumber + "');"
+                    + "$('.inputFields .uiColorButton').click();\n";
+               
+                challengePageJs.fillPage(command);
 
                 person.isProcessed = true;
             }

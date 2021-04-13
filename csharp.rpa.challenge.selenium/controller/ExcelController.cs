@@ -17,36 +17,42 @@ namespace csharp.rpa.challenge.selenium.controller
 
         public List<Person> loadExcelData()
         {
-            string inputFile = Directory.GetFiles(ChallengeConstants.PATH_INPUT_EXCEL, "*" + fileExtension)[0];
-
             List<Person> personList = new List<Person>();
-            WorkBook workbook = WorkBook.Load(inputFile);
-            WorkSheet sheet = workbook.DefaultWorkSheet;
+            string[] files = Directory.GetFiles(ChallengeConstants.PATH_INPUT_EXCEL, "*" + fileExtension);
 
-            string currentCell = "A1";
-            for (var counter = 2; currentCell.Length != 0; counter++)
+            if (files.Length != 0)
             {
-                currentCell = sheet["A" + counter + ""].StringValue;
+                string inputFile = files[0];
 
-                if (currentCell.Length != 0)
+                WorkBook workbook = WorkBook.Load(inputFile);
+                WorkSheet sheet = workbook.DefaultWorkSheet;
+
+                string currentCell = "A1";
+                for (var counter = 2; currentCell.Length != 0; counter++)
                 {
-                    Person person = new Person();
+                    currentCell = sheet["A" + counter + ""].StringValue;
 
-                    person.firstName = sheet["A" + counter + ""].StringValue;
-                    person.lastName = sheet["B" + counter + ""].StringValue;
-                    person.companyName = sheet["C" + counter + ""].StringValue;
-                    person.roleInCompany = sheet["D" + counter + ""].StringValue;
-                    person.address = sheet["E" + counter + ""].StringValue;
-                    person.email = sheet["F" + counter + ""].StringValue;
-                    person.phoneNumber = sheet["G" + counter + ""].StringValue;
+                    if (currentCell.Length != 0)
+                    {
+                        Person person = new Person();
 
-                    personList.Add(person);
+                        person.firstName = sheet["A" + counter + ""].StringValue;
+                        person.lastName = sheet["B" + counter + ""].StringValue;
+                        person.companyName = sheet["C" + counter + ""].StringValue;
+                        person.roleInCompany = sheet["D" + counter + ""].StringValue;
+                        person.address = sheet["E" + counter + ""].StringValue;
+                        person.email = sheet["F" + counter + ""].StringValue;
+                        person.phoneNumber = sheet["G" + counter + ""].StringValue;
+
+                        personList.Add(person);
+                    }
                 }
-            }
 
-            workbook.Close();
-            string processingPath = ChallengeConstants.PATH_PROCESSING_EXCEL + @"\" + ChallengeConstants.FILE_NAME + fileExtension;
-            File.Move(inputFile, processingPath);
+                workbook.Close();
+                string processingPath = ChallengeConstants.PATH_PROCESSING_EXCEL + @"\" + ChallengeConstants.FILE_NAME + fileExtension;
+                //verificar e remover arquivo se existir
+                File.Move(inputFile, processingPath);
+            }
 
             return personList;
         }
