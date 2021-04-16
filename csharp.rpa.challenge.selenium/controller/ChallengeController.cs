@@ -27,16 +27,18 @@ namespace csharp.rpa.challenge.selenium.controller
         public void InitFlow()
         {
            
-            ExcelController excelController = new ExcelController();
+            ExcelController excelController = new();
             List<Person> personList = excelController.LoadExcelData();
 
             if (personList.Count != 0) {
-                this.driver = WebDriverFactory.GetInstance();
-                excelController.resultMessage = DataInsertion(personList);
-                excelController.WriteExcel(personList);
+                using (WebDriverFactory factory = new())
+                {
+                    driver = factory.Driver;
+                    excelController.resultMessage = DataInsertion(personList);
+                    excelController.WriteExcel(personList);
 
-                log.Info(excelController.resultMessage);
-                WebDriverFactory.CloseDriver();
+                    log.Info(excelController.resultMessage);
+                }
             } 
             else
             {
@@ -50,7 +52,6 @@ namespace csharp.rpa.challenge.selenium.controller
 
             driver.Navigate().GoToUrl(ChallengeConstants.URL_CHALLENGE);
             challengePageJs.ClickStart();
-
 
             foreach (Person person in personList)
             {

@@ -8,22 +8,51 @@ using System.Text;
 
 namespace csharp.rpa.challenge.selenium.browser
 {
-    class WebDriverFactory
+    class WebDriverFactory : IDisposable
     {
-        private static IWebDriver driver;
+        public IWebDriver Driver { get; set; }
+        private bool disposedValue;
 
-        public static IWebDriver GetInstance()
+        public WebDriverFactory()
         {
-            driver = new ChromeDriver(ChallengeConstants.PATH_CHROMEDRIVER, BrowserConfiguration.GetChromeOptions());
-            driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(80);
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(80);
-            return driver;
+            Driver = new ChromeDriver(ChallengeConstants.PATH_CHROMEDRIVER, BrowserConfiguration.GetChromeOptions());
+            Driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(80);
+            Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(80);
         }
 
-        public static void CloseDriver()
+        public void CloseDriver()
         {
-            driver.Close();
-            driver.Quit();
+            Driver.Close();
+            Driver.Quit();
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    CloseDriver();
+                }
+
+                // Tarefa pendente: liberar recursos não gerenciados (objetos não gerenciados) e substituir o finalizador
+                // Tarefa pendente: definir campos grandes como nulos
+                disposedValue = true;
+            }
+        }
+
+        // // Tarefa pendente: substituir o finalizador somente se 'Dispose(bool disposing)' tiver o código para liberar recursos não gerenciados
+        // ~WebDriverFactory()
+        // {
+        //     // Não altere este código. Coloque o código de limpeza no método 'Dispose(bool disposing)'
+        //     Dispose(disposing: false);
+        // }
+
+        public void Dispose()
+        {
+            // Não altere este código. Coloque o código de limpeza no método 'Dispose(bool disposing)'
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
     }
 }

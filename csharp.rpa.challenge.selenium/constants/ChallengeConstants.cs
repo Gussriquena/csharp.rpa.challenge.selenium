@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace csharp.rpa.challenge.selenium.constants
@@ -22,7 +23,8 @@ namespace csharp.rpa.challenge.selenium.constants
 
         public static string GetValue(string section, string key)
         {
-            var iniFile = new IniFile(@"C:\Projetos\RPA\csharp.rpa.challenge.selenium\csharp.rpa.challenge.selenium\resources\config.ini");
+
+            var iniFile = new IniFile(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + "\\resources\\config.ini");
             return iniFile.GetValue(section, key);
         }
     }

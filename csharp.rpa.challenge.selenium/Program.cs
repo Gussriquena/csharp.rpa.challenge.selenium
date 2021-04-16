@@ -20,16 +20,18 @@ namespace csharp.rpa.challenge.selenium
     class Program
     {
 
-        private static readonly Logging log = new Logging(@"C:\Arquivos\rpa.challenge.csharp\log\", "log_" + DateTime.Now.ToString("yyyMMdd_HHmmss") + ".txt");
+        private static readonly Logging log = new(@"C:\Arquivos\rpa.challenge.csharp\log\", "log_" + DateTime.Now.ToString("yyyMMdd_HHmmss") + ".txt");
 
         static void Main(string[] args)
         {
             log.Info("Starting application");
 
-            ChallengeController challengeController = new ChallengeController(log);
+            ChallengeController challengeController = new(log);
             challengeController.InitFlow();
 
             log.Info("Flow ended");
+
+            log.Info(Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory));
         }
     }
 }
