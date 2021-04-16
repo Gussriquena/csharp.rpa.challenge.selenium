@@ -24,19 +24,19 @@ namespace csharp.rpa.challenge.selenium.controller
             this.log = log;
         }
 
-        public void initFlow()
+        public void InitFlow()
         {
            
             ExcelController excelController = new ExcelController();
-            List<Person> personList = excelController.loadExcelData();
+            List<Person> personList = excelController.LoadExcelData();
 
             if (personList.Count != 0) {
-                this.driver = WebDriverFactory.getInstance();
-                excelController.resultMessage = dataInsertion(personList);
-                excelController.writeExcel(personList);
+                this.driver = WebDriverFactory.GetInstance();
+                excelController.resultMessage = DataInsertion(personList);
+                excelController.WriteExcel(personList);
 
                 log.Info(excelController.resultMessage);
-                WebDriverFactory.closeDriver();
+                WebDriverFactory.CloseDriver();
             } 
             else
             {
@@ -44,23 +44,23 @@ namespace csharp.rpa.challenge.selenium.controller
             }
         }
 
-        private string dataInsertion(List<Person> personList)
+        private string DataInsertion(List<Person> personList)
         {
             this.challengePageJs = new ChallengePageJs(driver);
 
             driver.Navigate().GoToUrl(ChallengeConstants.URL_CHALLENGE);
-            challengePageJs.clickStart();
+            challengePageJs.ClickStart();
 
 
-            foreach (var person in personList)
+            foreach (Person person in personList)
             {
-                insertData(person);
+                InsertData(person);
             }
 
-            return challengePageJs.getResultMessage();
+            return challengePageJs.GetResultMessage();
         }
 
-        private void insertData(Person person)
+        private void InsertData(Person person)
         {
             try
             {
@@ -75,8 +75,7 @@ namespace csharp.rpa.challenge.selenium.controller
                     + "$('input[ng-reflect-name=labelPhone]').val('" + person.phoneNumber + "');"
                     + "$('.inputFields .uiColorButton').click();\n";
                
-                challengePageJs.fillPage(command);
-
+                challengePageJs.FillPage(command);
                 person.isProcessed = true;
             }
             catch (Exception e)

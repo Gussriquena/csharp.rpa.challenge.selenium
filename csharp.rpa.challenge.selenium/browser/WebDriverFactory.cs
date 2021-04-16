@@ -12,15 +12,15 @@ namespace csharp.rpa.challenge.selenium.browser
     {
         private static IWebDriver driver;
 
-        public static IWebDriver getInstance()
+        public static IWebDriver GetInstance()
         {
-            driver = new ChromeDriver(ChallengeConstants.PATH_CHROMEDRIVER, BrowserConfiguration.getChromeOptions());
+            driver = new ChromeDriver(ChallengeConstants.PATH_CHROMEDRIVER, BrowserConfiguration.GetChromeOptions());
             driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(80);
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(80);
             return driver;
         }
 
-        public static void closeDriver()
+        public static void CloseDriver()
         {
             driver.Close();
             driver.Quit();

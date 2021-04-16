@@ -15,7 +15,7 @@ namespace csharp.rpa.challenge.selenium.controller
         private string fileExtension = ChallengeConstants.FILE_EXTENSION;
         public string resultMessage { get; set; }
 
-        public List<Person> loadExcelData()
+        public List<Person> LoadExcelData()
         {
             List<Person> personList = new List<Person>();
             string[] files = Directory.GetFiles(ChallengeConstants.PATH_INPUT_EXCEL, "*" + fileExtension);
@@ -28,7 +28,7 @@ namespace csharp.rpa.challenge.selenium.controller
                 WorkSheet sheet = workbook.DefaultWorkSheet;
 
                 string currentCell = "A1";
-                for (var counter = 2; currentCell.Length != 0; counter++)
+                for (int counter = 2; currentCell.Length != 0; counter++)
                 {
                     currentCell = sheet["A" + counter + ""].StringValue;
 
@@ -57,7 +57,7 @@ namespace csharp.rpa.challenge.selenium.controller
             return personList;
         }
 
-        public void writeExcel(List<Person> personList)
+        public void WriteExcel(List<Person> personList)
         {
             string fullFileName = @"\" + ChallengeConstants.FILE_NAME + fileExtension;
             string fullProcessingPath = ChallengeConstants.PATH_PROCESSING_EXCEL + fullFileName;
@@ -66,7 +66,7 @@ namespace csharp.rpa.challenge.selenium.controller
             WorkSheet sheet = workbook.DefaultWorkSheet;
 
             int counter = 2;
-            foreach (var person in personList)
+            foreach (Person person in personList)
             {
                 sheet["A" + counter + ""].Value = person.firstName;
                 sheet["B" + counter + ""].Value = person.lastName;

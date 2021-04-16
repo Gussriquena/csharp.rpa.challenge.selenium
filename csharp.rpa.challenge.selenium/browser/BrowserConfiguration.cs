@@ -9,7 +9,7 @@ namespace csharp.rpa.challenge.selenium.browser
     class BrowserConfiguration
     {
 
-        public static ChromeOptions getChromeOptions()
+        public static ChromeOptions GetChromeOptions()
         {
             var options = new ChromeOptions();
             options.AddArguments("--test-type", "--start-maximized");

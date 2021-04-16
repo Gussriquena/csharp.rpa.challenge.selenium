@@ -27,7 +27,7 @@ namespace csharp.rpa.challenge.selenium
             log.Info("Starting application");
 
             ChallengeController challengeController = new ChallengeController(log);
-            challengeController.initFlow();
+            challengeController.InitFlow();
 
             log.Info("Flow ended");
         }
