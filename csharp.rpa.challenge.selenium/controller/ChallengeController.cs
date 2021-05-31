@@ -26,7 +26,6 @@ namespace csharp.rpa.challenge.selenium.controller
 
         public void InitFlow()
         {
-           
             ExcelController excelController = new();
             List<Person> personList = excelController.LoadExcelData();
 
@@ -65,7 +64,6 @@ namespace csharp.rpa.challenge.selenium.controller
         {
             try
             {
-
                 string command 
                     = "$('input[ng-reflect-name=labelFirstName]').val('" + person.firstName + "');"
                     + "$('input[ng-reflect-name=labelLastName]').val('" + person.lastName + "');"

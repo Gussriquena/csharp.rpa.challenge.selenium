@@ -31,7 +31,7 @@ namespace csharp.rpa.challenge.selenium
 
             log.Info("Flow ended");
 
-            log.Info(Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory));
+            log.Info(Environment.CurrentDirectory);
         }
     }
 }

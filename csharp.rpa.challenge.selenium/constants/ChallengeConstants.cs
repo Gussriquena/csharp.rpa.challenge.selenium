@@ -7,6 +7,8 @@ namespace csharp.rpa.challenge.selenium.constants
 {
     class ChallengeConstants
     {
+        private static IniFile iniFile = new IniFile(Environment.CurrentDirectory + "\\resources\\config.ini");
+
         public static string URL_CHALLENGE = GetValue("url", "mainUrlChallenge");
         public static string PATH_INPUT_EXCEL = GetValue("files", "pathInputExcel");
         public static string PATH_OUTPUT_EXCEL = GetValue("files", "pathOutputExcel");
@@ -23,8 +25,6 @@ namespace csharp.rpa.challenge.selenium.constants
 
         public static string GetValue(string section, string key)
         {
-
-            var iniFile = new IniFile(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + "\\resources\\config.ini");
             return iniFile.GetValue(section, key);
         }
     }
